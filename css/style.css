@@ -1,10 +1,71 @@
 #cart_items {
    background: transparent;
    border: 0;
-   margin-top: -9px;
+   margin: 1px 0 0;
 }
 
-.grid_template {
+.fa-search {
+   position: relative;
+   color: hsl(240, 37%, 12%);
+   margin-left: 900px;
+   top: -35px;
+   cursor: pointer;
+}
+
+/************ Product container **********/
+.product_list {
+   grid-area: figure;
+   position: relative;
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   gap: 30px;
+   border: 10px solid grey;
+   background: ghostwhite;
+}
+
+.product_list img {
+   width: 50%;
+   margin: 0 0 0 20px;
+}
+
+.product_list h2 {
+   font-size: 20px;
+   margin: 20px 0 0 40px;
+}
+
+.product_list h3 {
+   font-size: 20px;
+   margin: 0 0 0 40px;
+}
+
+.product_list button {
+   background: transparent;
+   border: 0;
+   margin: 0 0 0 40px;
+}
+
+.products_container {
+   grid-area: section;
+   display: grid;
+   grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+   gap: 30px;
+}
+
+.products_container section {
+   border: 2px solid ghostwhite;
+   display: block;
+}
+
+.products_container section img {
+   width: 80%;
+}
+
+.products_container section h2 {
+   font-size: 20px;
+   letter-spacing: 2px;
+}
+
+main {
    display: grid;
    grid-template-columns: 300px 1050px;
    grid-template-rows: auto auto auto auto auto;
@@ -18,43 +79,6 @@
       "  .        footer";
 }
 
-.fa-search {
-   position: relative;
-   color: hsl(240, 37%, 12%);
-   margin-left: 900px;
-   top: -35px;
-   cursor: pointer;
-}
-
-.product_list {
-   grid-area: figure;
-   position: relative;
-   background: ghostwhite;
-   width: 100%;
-   min-height: 100%;
-   display: block;
-}
-
-.grid_container {
-   grid-area: section;
-   display: grid;
-   grid-template-columns: 1fr 1fr 1fr;
-   gap: 30px;
-}
-
-.grid_container section {
-   border: 2px solid ghostwhite;
-}
-
-.grid_container section img {
-   width: 50%;
-}
-
-.grid_container section h2 {
-   font-size: 20px;
-   letter-spacing: 2px;
-}
-
 header {
    grid-area: header;
    background-color: ghostwhite;
@@ -63,7 +87,6 @@ header {
 
 header input {
    position: relative;
-   display: flex;
    width: 500px;
    left: 440px;
    height: 50px;
@@ -117,6 +140,11 @@ aside {
    max-height: 300px;
 }
 
+/******** Not clicked on cart-list button ***************/
+section {
+	display: none;
+}
+
 figure {
    grid-area: figure;
 }
@@ -130,14 +158,10 @@ button {
    display: block;
    cursor: pointer;
    color: hsl(240, 37%, 12%);
-   height: 50px;
+   height: 20px;
+   margin-top: 10px;
 }
 
 button:hover {
    color: darkblue;
-}
-
-a {
-   font-size: 20px;
-   padding-top: 20px;
 }
