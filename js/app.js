@@ -293,7 +293,7 @@ function updateCartView(itemsInCart) {
       let dangerButton = document.createElement("button");
       dangerButton.className = "i fas fa-trash-alt";
       dangerButton.id = item, removeItemFromCart;
-      dangerButton.dataset.remove = dangerButton.id;
+      dangerButton.dataset.remove = item.id;
       cartProducts.appendChild(dangerButton);
 
       section.appendChild(cartProducts);
@@ -305,11 +305,11 @@ updateCartView(itemsInCart);
 /************************************** Add eventlistener ***************************/
 
 // legger til eventlistener for kjøp-produkt knappen som trigger funksjonen addToCart()
-let buttons = document.querySelector(".fa-shopping-cart");
+let buttons = document.querySelectorAll(".fa-shopping-cart");
 
 // finn hver knapp og legg til produktet i handlevognen og til slutt oppdater handlekurven
 buttons.forEach((event) => {
-   const productId = event.currentTarget.dataset.productId;
+   let productId = event.currentTarget.dataset.productId;
    buttons.addEventListener('click', addToCart(productId));
    updateCart(itemsInCart);
 });
@@ -318,8 +318,8 @@ buttons.forEach((event) => {
 let removeButton = document.querySelectorAll(".fa-trash-alt");
 
 removeButton.forEach((event) => {
-   const removeProduct = event.currentTarget.dataset.remove;
-   event.addEventListener("click", removeItemFromCart(removeProduct));
+   const removeProductId = event.dataset.remove;
+   event.addEventListener("click", removeItemFromCart(removeProductId));
    updateCart(itemsInCart);
 });
 
