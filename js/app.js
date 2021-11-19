@@ -193,12 +193,10 @@ function countItemsAddedToCart() {
    });
 }
 
-
 // når man legger til like produkter, så skal antallet økes med +1 eller ta vekk med -1.
-
 function changeNumbersOfSameProduct(event, id) {
    itemsInCart = itemsInCart.map((item) => {
-      let numberOfUnits = item.numberOfUnits;
+      const numberOfUnits = item.numberOfUnits;
 
       if (item.id === id) {
          if (event === "minus" && numberOfUnits > 1) {
@@ -213,6 +211,7 @@ function changeNumbersOfSameProduct(event, id) {
          numberOfUnits,
       };
    });
+
    updateCart(itemsInCart);
 }
 
@@ -225,36 +224,36 @@ function updateCart(itemsInCart) {
 /************************************* From Model to View ***************************/
 
 // viser / setter opp produkter
-
 function product() {
    const productItems = document.querySelector(".products_container");
 
    productItems.innerHTML = "";
    products.productsInformation.forEach((product, addToCart) => {
-      let productSection = document.createElement("section");
+      const productSection = document.createElement("section");
 
-      let productImage = document.createElement("img");
+      const productImage = document.createElement("img");
       productImage.src = product.img;
       productImage.setAttribute("alt", "image of laptop");
       productSection.appendChild(productImage);
 
-      let productTitle = document.createElement("h2");
+      const productTitle = document.createElement("h2");
       productTitle.innerText = product.name;
       productSection.appendChild(productTitle);
 
-      let productDescription = document.createElement("p");
+      const productDescription = document.createElement("p");
       productDescription.innerText = product.description;
       productSection.appendChild(productDescription);
 
-      let productPrice = document.createElement("h2");
+      const productPrice = document.createElement("h2");
       productPrice.innerText = product.price;
       productSection.appendChild(productPrice);
 
-      let addProductToCartButton = document.createElement("button");
+      const addProductToCartButton = document.createElement("button");
       addProductToCartButton.className = "i fas fa-shopping-cart";
-      addProductToCartButton.id = product.id, addToCart;
-      addProductToCartButton.dataset.productId = product.id;
+      addProductToCartButton.id = product.id;
+      addProductToCartButton.dataset.add = product.id;
       productSection.appendChild(addProductToCartButton);
+
       productItems.appendChild(productSection);
    });
 }
@@ -263,40 +262,41 @@ product();
 
 // oppdaterer handlelisten
 function updateCartView(itemsInCart) {
-   const section = document.querySelector("section");
-   section.innerHTML = "";
+   const productList = document.querySelector("product_list");
+   productList.innerHTML = "";
+
    itemsInCart.forEach((item) => {
-      let cartProducts = document.createElement("div");
+      const cartProducts = document.createElement("div");
       cartProducts.className = "cart_item";
 
-      let cartProductImage = document.createElement("img");
+      const cartProductImage = document.createElement("img");
       cartProductImage.src = item.image;
       cartProductImage.setAttribute("alt","bilde av ....");
       cartProducts.appendChild(cartProductImage);
 
-      let cartProductTitle = document.createElement("h2");
+      const cartProductTitle = document.createElement("h2");
       cartProductTitle.innerText = item.name;
       cartProducts.appendChild(cartProductTitle);
 
-      let cartProductDescription = document.createElement("p");
+      const cartProductDescription = document.createElement("p");
       cartProductDescription.innerText = item.description;
       cartProducts.appendChild(cartProductDescription);
 
-      let cartProductQuantity = document.createElement('h3');
+      const cartProductQuantity = document.createElement('h3');
       cartProductQuantity.innerText = item.numberOfUnits;
       cartProducts.appendChild(cartProductQuantity)
 
-      let cartProductPrice = document.createElement("h3");
+      const cartProductPrice = document.createElement("h3");
       cartProductPrice.innerText = item.price;
       cartProducts.appendChild(cartProductPrice);
 
-      let dangerButton = document.createElement("button");
+      const dangerButton = document.createElement("button");
       dangerButton.className = "i fas fa-trash-alt";
       dangerButton.id = item, removeItemFromCart;
       dangerButton.dataset.remove = item.id;
       cartProducts.appendChild(dangerButton);
 
-      section.appendChild(cartProducts);
+      productList.appendChild(cartProducts);
    });
 }
 
@@ -305,17 +305,16 @@ updateCartView(itemsInCart);
 /************************************** Add eventlistener ***************************/
 
 // legger til eventlistener for kjøp-produkt knappen som trigger funksjonen addToCart()
-let buttons = document.querySelectorAll(".fa-shopping-cart");
+const buttons = document.querySelectorAll(".fa-shopping-cart");
 
-// finn hver knapp og legg til produktet i handlevognen og til slutt oppdater handlekurven
 buttons.forEach((event) => {
-   let productId = event.currentTarget.dataset.productId;
-   buttons.addEventListener('click', addToCart(productId));
+   const productId = event.dataset.add;
+   event.addEventListener('click', addToCart(productId));
    updateCart(itemsInCart);
 });
 
 // legger til eventlistener for danger-knappen som trigger funksjonen removeItemFromCart()
-let removeButton = document.querySelectorAll(".fa-trash-alt");
+const removeButton = document.querySelectorAll(".fa-trash-alt");
 
 removeButton.forEach((event) => {
    const removeProductId = event.dataset.remove;
@@ -323,9 +322,9 @@ removeButton.forEach((event) => {
    updateCart(itemsInCart);
 });
 
+
 /*************** Show / Hide Cart ***************/
 // må integrere denne delen med hele modellen
-
 const section = document.querySelector("section");
 const showCartButton = document.getElementById("cart_items");
 
