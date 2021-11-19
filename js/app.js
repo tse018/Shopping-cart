@@ -155,6 +155,7 @@ const products = {
 // legge til produkter i en ny liste itemsInCart
 let itemsInCart = []
 
+
 /* funksjon som skal sjekke om produktet finnes i listen itemsInCart,
    hvis det finnes, så økes antallet med 1,
    hvis det ikke finnes skal det finne produkt id og legge til i itemsInCart
@@ -226,9 +227,9 @@ function updateCart(itemsInCart) {
 // viser / setter opp produkter
 function product() {
    const productItems = document.querySelector(".products_container");
+   
 
-   productItems.innerHTML = "";
-   products.productsInformation.forEach((product, addToCart) => {
+   products.productsInformation.forEach((product) => {
       const productSection = document.createElement("section");
 
       const productImage = document.createElement("img");
@@ -262,8 +263,7 @@ product();
 
 // oppdaterer handlelisten
 function updateCartView(itemsInCart) {
-   const productList = document.querySelector("product_list");
-   productList.innerHTML = "";
+   const productList = document.querySelector(".shopping-cart");
 
    itemsInCart.forEach((item) => {
       const cartProducts = document.createElement("div");
@@ -321,6 +321,8 @@ removeButton.forEach((event) => {
    event.addEventListener("click", removeItemFromCart(removeProductId));
    updateCart(itemsInCart);
 });
+
+
 
 
 /*************** Show / Hide Cart ***************/
