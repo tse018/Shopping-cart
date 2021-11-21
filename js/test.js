@@ -152,51 +152,10 @@ const products = {
 };
 
 
-/************************************* View ***************************/
+/************************************* From Model to View ***************************/
 
-// viser / setter opp produkter
-function product() {
-   const productItems = document.querySelector(".products_container");
-   
-
-   products.productsInformation.forEach((product) => {
-      const productSection = document.createElement("section");
-
-      const productImage = document.createElement("img");
-      productImage.src = product.img;
-      productImage.setAttribute("alt", "image of laptop");
-      productSection.appendChild(productImage);
-
-      const productTitle = document.createElement("h2");
-      productTitle.innerText = product.name;
-      productSection.appendChild(productTitle);
-
-      const productDescription = document.createElement("p");
-      productDescription.innerText = product.description;
-      productSection.appendChild(productDescription);
-
-      const productPrice = document.createElement("h2");
-      productPrice.innerText = product.price;
-      productSection.appendChild(productPrice);
-
-      const addProductToCartButton = document.createElement("button");
-      addProductToCartButton.className = "i fas fa-shopping-cart";
-      addProductToCartButton.id = product.id;
-      addProductToCartButton.dataset.add = product.id;
-      productSection.appendChild(addProductToCartButton);
-
-      productItems.appendChild(productSection);
-   });
-}
-
-product();
-
-
-
-/************** Controllers *********************/
-// legge til produkter i en ny tom liste som heter itemsInCart
-let itemsInCart = []
-
+/*************************** Controllers *******************/
+let itemsInCart = [];
 
 /* funksjon som skal sjekke om produktet finnes i listen itemsInCart,
    hvis det finnes, så økes antallet med 1,
@@ -207,9 +166,8 @@ function addToCart(id) {
    if (itemsInCart.some((item) => item.id === id)) {
       changeNumbersOfSameProduct("plus", id);
    } else {
-      const item = products.productsInformation.find(
-         (item) => item.id === id)
-         console.log(item);
+      const item = products.productsInformation.find((item) => item.id === id)
+      console.log(item)
 
       itemsInCart.push({
          ...item,
@@ -223,6 +181,7 @@ function addToCart(id) {
 function removeItemFromCart(id) {
    itemsInCart = itemsInCart.filter((item) => item.id !== id); // NOT equal value / NOT equal value type
    updateCart(itemsInCart);
+   console.log(item)
 }
 
 // teller total pris og total produkter lagt til i handlekurven
@@ -264,12 +223,48 @@ function updateCart(itemsInCart) {
 }
 
 
+// viser / setter opp produkter
+function product() {
+   const productItems = document.querySelector(".products_container");
+   
+   products.productsInformation.forEach((product) => {
+      const productSection = document.createElement("section");
+
+      const productImage = document.createElement("img");
+      productImage.src = product.img;
+      productImage.setAttribute("alt", "image of laptop");
+      productSection.appendChild(productImage);
+
+      const productTitle = document.createElement("h2");
+      productTitle.innerText = product.name;
+      productSection.appendChild(productTitle);
+
+      const productDescription = document.createElement("p");
+      productDescription.innerText = product.description;
+      productSection.appendChild(productDescription);
+
+      const productPrice = document.createElement("h2");
+      productPrice.innerText = product.price;
+      productSection.appendChild(productPrice);
+
+      const addProductToCartButton = document.createElement("button");
+      addProductToCartButton.className = "i fas fa-shopping-cart";
+      addProductToCartButton.dataset.add = product.id;
+      productSection.appendChild(addProductToCartButton);
+
+
+      productItems.appendChild(productSection);
+   });
+}
+
+product();
+
 
 // oppdaterer handlelisten
 function updateCartView(itemsInCart) {
    const productList = document.querySelector(".shopping-cart");
 
-   itemsInCart.forEach((item) => {
+   itemsInCart.forEach((item ) => {
       const cartProducts = document.createElement("div");
       cartProducts.className = "cart_item";
 
@@ -296,7 +291,6 @@ function updateCartView(itemsInCart) {
 
       const dangerButton = document.createElement("button");
       dangerButton.className = "i fas fa-trash-alt";
-      dangerButton.id = item, removeItemFromCart;
       dangerButton.dataset.remove = item.id;
       cartProducts.appendChild(dangerButton);
 
@@ -307,15 +301,15 @@ function updateCartView(itemsInCart) {
 updateCartView(itemsInCart);
 
 
-
 /************************************** Add eventlistener ***************************/
 
 // legger til eventlistener for kjøp-produkt knappen som trigger funksjonen addToCart()
+
 const buttons = document.querySelectorAll(".fa-shopping-cart");
 
 buttons.forEach((event) => {
-   const productId = event.target.add;
-   event.addEventListener('click', addToCart(productId));
+   let productId = event.target.dataset.add;
+   buttons.addEventListener('click', addToCart(productId));
    updateCart(itemsInCart);
 });
 
@@ -323,36 +317,7 @@ buttons.forEach((event) => {
 const removeButton = document.querySelectorAll(".fa-trash-alt");
 
 removeButton.forEach((event) => {
-   const removeProductId = event.target.remove;
+   let removeProductId = event.dataset.remove;
    event.addEventListener("click", removeItemFromCart(removeProductId));
    updateCart(itemsInCart);
 });
-
-
-
-
-
-/*************** Show / Hide Cart ***************/
-// må integrere denne delen med hele modellen
-const section = document.querySelector("section");
-const showCartButton = document.getElementById("cart_items");
-
-const sectionState = {
-   isVisible: false,
-   isInvinsible: true,
-};
-
-function updateView() {
-   if (sectionState.isVisible === true) {
-      section.classList.remove("product_list"); // legger til og tar vekk klassen
-   } else {
-      section.classList.add("product_list");
-   }
-}
-
-function onMenuButtonClick() {
-   sectionState.isVisible = !sectionState.isVisible;
-   updateView();
-}
-
-showCartButton.addEventListener("click", onMenuButtonClick);
