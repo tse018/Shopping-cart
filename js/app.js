@@ -181,7 +181,6 @@ function product() {
 
       const addProductToCartButton = document.createElement("button");
       addProductToCartButton.className = "i fas fa-shopping-cart";
-      addProductToCartButton.id = product.id;
       addProductToCartButton.dataset.add = product.id;
       productSection.appendChild(addProductToCartButton);
 
@@ -198,6 +197,13 @@ product();
 let itemsInCart = []
 
 
+function updateCart(itemsInCart) {
+   updateCartView(itemsInCart);
+   countItemsAddedToCart(itemsInCart);
+}
+
+
+
 /* funksjon som skal sjekke om produktet finnes i listen itemsInCart,
    hvis det finnes, så økes antallet med 1,
    hvis det ikke finnes skal det finne produkt id og legge til i itemsInCart
@@ -207,9 +213,7 @@ function addToCart(id) {
    if (itemsInCart.some((item) => item.id === id)) {
       changeNumbersOfSameProduct("plus", id);
    } else {
-      const item = products.productsInformation.find(
-         (item) => item.id === id)
-         console.log(item);
+      const item = products.productsInformation.find((item) => item.id === id)
 
       itemsInCart.push({
          ...item,
@@ -258,18 +262,12 @@ function changeNumbersOfSameProduct(event, id) {
    updateCart(itemsInCart);
 }
 
-function updateCart(itemsInCart) {
-   updateCartView(itemsInCart);
-   countItemsAddedToCart(itemsInCart);
-}
-
-
 
 // oppdaterer handlelisten
 function updateCartView(itemsInCart) {
    const productList = document.querySelector(".shopping-cart");
 
-   itemsInCart.forEach((item) => {
+   itemsInCart.forEach((item, id) => {
       const cartProducts = document.createElement("div");
       cartProducts.className = "cart_item";
 
@@ -296,7 +294,6 @@ function updateCartView(itemsInCart) {
 
       const dangerButton = document.createElement("button");
       dangerButton.className = "i fas fa-trash-alt";
-      dangerButton.id = item, removeItemFromCart;
       dangerButton.dataset.remove = item.id;
       cartProducts.appendChild(dangerButton);
 
@@ -309,7 +306,7 @@ updateCartView(itemsInCart);
 
 
 /************************************** Add eventlistener ***************************/
-
+/*
 // legger til eventlistener for kjøp-produkt knappen som trigger funksjonen addToCart()
 const buttons = document.querySelectorAll(".fa-shopping-cart");
 
@@ -318,6 +315,7 @@ buttons.forEach((event) => {
    event.addEventListener('click', addToCart(productId));
    updateCart(itemsInCart);
 });
+
 
 // legger til eventlistener for danger-knappen som trigger funksjonen removeItemFromCart()
 const removeButton = document.querySelectorAll(".fa-trash-alt");
@@ -328,31 +326,4 @@ removeButton.forEach((event) => {
    updateCart(itemsInCart);
 });
 
-
-
-
-
-/*************** Show / Hide Cart ***************/
-// må integrere denne delen med hele modellen
-const section = document.querySelector("section");
-const showCartButton = document.getElementById("cart_items");
-
-const sectionState = {
-   isVisible: false,
-   isInvinsible: true,
-};
-
-function updateView() {
-   if (sectionState.isVisible === true) {
-      section.classList.remove("product_list"); // legger til og tar vekk klassen
-   } else {
-      section.classList.add("product_list");
-   }
-}
-
-function onMenuButtonClick() {
-   sectionState.isVisible = !sectionState.isVisible;
-   updateView();
-}
-
-showCartButton.addEventListener("click", onMenuButtonClick);
+*/

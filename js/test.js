@@ -152,77 +152,17 @@ const products = {
 };
 
 
-/************************************* From Model to View ***************************/
-
 /*************************** Controllers *******************/
 let itemsInCart = [];
 
-/* funksjon som skal sjekke om produktet finnes i listen itemsInCart,
-   hvis det finnes, så økes antallet med 1,
-   hvis det ikke finnes skal det finne produkt id og legge til i itemsInCart
-*/
-
-function addToCart(id) {
-   if (itemsInCart.some((item) => item.id === id)) {
-      changeNumbersOfSameProduct("plus", id);
-   } else {
-      const item = products.productsInformation.find((item) => item.id === id)
-      console.log(item)
-
-      itemsInCart.push({
-         ...item,
-         numberOfUnits: 1,
-      });
-   }
-   updateCart(itemsInCart);
-}
-
-// fjern item fra listen
-function removeItemFromCart(id) {
-   itemsInCart = itemsInCart.filter((item) => item.id !== id); // NOT equal value / NOT equal value type
-   updateCart(itemsInCart);
-   console.log(item)
-}
-
-// teller total pris og total produkter lagt til i handlekurven
-function countItemsAddedToCart() {
-   let totalPrice = 0,
-   totalItems = 0;
-
-   itemsInCart.forEach((item) => {
-      totalPrice += item.price * item.numberOfUnits;
-      totalItems += item.numberOfUnits;
-   });
-}
-
-// når man legger til like produkter, så skal antallet økes med +1 eller ta vekk med -1.
-function changeNumbersOfSameProduct(event, id) {
-   itemsInCart = itemsInCart.map((item) => {
-      const numberOfUnits = item.numberOfUnits;
-
-      if (item.id === id) {
-         if (event === "minus" && numberOfUnits > 1) {
-            numberOfUnits--;
-         } else if (event === "plus" && numberOfUnits < 1) {
-            numberOfUnits++;
-         }
-      }
-
-      return {
-         ...item,
-         numberOfUnits,
-      };
-   });
-
-   updateCart(itemsInCart);
-}
-
+// controller
 function updateCart(itemsInCart) {
    updateCartView(itemsInCart);
    countItemsAddedToCart(itemsInCart);
 }
 
 
+/************************************* From Model to View ***************************/
 // viser / setter opp produkter
 function product() {
    const productItems = document.querySelector(".products_container");
@@ -252,6 +192,7 @@ function product() {
       addProductToCartButton.dataset.add = product.id;
       productSection.appendChild(addProductToCartButton);
 
+      addProductToCartButton.addEventListener("click", addToCart)
 
       productItems.appendChild(productSection);
    });
@@ -264,7 +205,7 @@ product();
 function updateCartView(itemsInCart) {
    const productList = document.querySelector(".shopping-cart");
 
-   itemsInCart.forEach((item ) => {
+   itemsInCart.forEach((item) => {
       const cartProducts = document.createElement("div");
       cartProducts.className = "cart_item";
 
@@ -301,14 +242,76 @@ function updateCartView(itemsInCart) {
 updateCartView(itemsInCart);
 
 
+/* funksjon som skal sjekke om produktet finnes i listen itemsInCart,
+   hvis det finnes, så økes antallet med 1,
+   hvis det ikke finnes skal det finne produkt id og legge til i itemsInCart
+*/
+
+function addToCart(id) {
+   if (itemsInCart.some((item) => item.id === id)) {
+      changeNumbersOfSameProduct("plus", id);
+   } else {
+      const item = products.productsInformation.find((product) => product.id === id)
+
+      itemsInCart.push({
+         ...item,
+         numberOfUnits: 1,
+      });
+   }
+   updateCart(itemsInCart);
+}
+
+// fjern item fra listen
+function removeItemFromCart(id) {
+   itemsInCart = itemsInCart.filter((item) => item.id !== id); // NOT equal value / NOT equal value type
+   updateCart(itemsInCart)
+}
+
+
+// teller total pris og total produkter lagt til i handlekurven
+function countItemsAddedToCart() {
+   let totalPrice = 0,
+   totalItems = 0;
+
+   itemsInCart.forEach((item) => {
+      totalPrice += item.price * item.numberOfUnits;
+      totalItems += item.numberOfUnits;
+   });
+}
+
+// når man legger til like produkter, så skal antallet økes med +1 eller ta vekk med -1.
+function changeNumbersOfSameProduct(event, id) {
+   itemsInCart = itemsInCart.map((item) => {
+      const numberOfUnits = item.numberOfUnits;
+
+      if (item.id === id) {
+         if (event === "minus" && numberOfUnits > 1) {
+            numberOfUnits--;
+         } else if (event === "plus" && numberOfUnits < 1) {
+            numberOfUnits++;
+         }
+      }
+
+      return {
+         ...item,
+         numberOfUnits,
+      };
+   });
+
+   updateCart(itemsInCart);
+}
+
+
+
+
+
 /************************************** Add eventlistener ***************************/
 
 // legger til eventlistener for kjøp-produkt knappen som trigger funksjonen addToCart()
-
 const buttons = document.querySelectorAll(".fa-shopping-cart");
 
 buttons.forEach((event) => {
-   let productId = event.target.dataset.add;
+   const productId = event.target.dataset.add;
    buttons.addEventListener('click', addToCart(productId));
    updateCart(itemsInCart);
 });
@@ -318,6 +321,6 @@ const removeButton = document.querySelectorAll(".fa-trash-alt");
 
 removeButton.forEach((event) => {
    let removeProductId = event.dataset.remove;
-   event.addEventListener("click", removeItemFromCart(removeProductId));
+   removeButton.addEventListener("click", removeItemFromCart(removeProductId));
    updateCart(itemsInCart);
 });
