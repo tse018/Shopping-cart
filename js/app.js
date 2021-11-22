@@ -191,78 +191,6 @@ function product() {
 product();
 
 
-
-/************** Controllers *********************/
-// legge til produkter i en ny tom liste som heter itemsInCart
-let itemsInCart = []
-
-
-function updateCart(itemsInCart) {
-   updateCartView(itemsInCart);
-   countItemsAddedToCart(itemsInCart);
-}
-
-
-
-/* funksjon som skal sjekke om produktet finnes i listen itemsInCart,
-   hvis det finnes, så økes antallet med 1,
-   hvis det ikke finnes skal det finne produkt id og legge til i itemsInCart
-*/
-
-function addToCart(id) {
-   if (itemsInCart.some((item) => item.id === id)) {
-      changeNumbersOfSameProduct("plus", id);
-   } else {
-      const item = products.productsInformation.find((item) => item.id === id)
-
-      itemsInCart.push({
-         ...item,
-         numberOfUnits: 1,
-      });
-   }
-   updateCart(itemsInCart);
-}
-
-// fjern item fra listen
-function removeItemFromCart(id) {
-   itemsInCart = itemsInCart.filter((item) => item.id !== id); // NOT equal value / NOT equal value type
-   updateCart(itemsInCart);
-}
-
-// teller total pris og total produkter lagt til i handlekurven
-function countItemsAddedToCart() {
-   let totalPrice = 0,
-   totalItems = 0;
-
-   itemsInCart.forEach((item) => {
-      totalPrice += item.price * item.numberOfUnits;
-      totalItems += item.numberOfUnits;
-   });
-}
-
-// når man legger til like produkter, så skal antallet økes med +1 eller ta vekk med -1.
-function changeNumbersOfSameProduct(event, id) {
-   itemsInCart = itemsInCart.map((item) => {
-      const numberOfUnits = item.numberOfUnits;
-
-      if (item.id === id) {
-         if (event === "minus" && numberOfUnits > 1) {
-            numberOfUnits--;
-         } else if (event === "plus" && numberOfUnits < 1) {
-            numberOfUnits++;
-         }
-      }
-
-      return {
-         ...item,
-         numberOfUnits,
-      };
-   });
-
-   updateCart(itemsInCart);
-}
-
-
 // oppdaterer handlelisten
 function updateCartView(itemsInCart) {
    const productList = document.querySelector(".shopping-cart");
@@ -306,12 +234,12 @@ updateCartView(itemsInCart);
 
 
 /************************************** Add eventlistener ***************************/
-/*
+
 // legger til eventlistener for kjøp-produkt knappen som trigger funksjonen addToCart()
 const buttons = document.querySelectorAll(".fa-shopping-cart");
 
 buttons.forEach((event) => {
-   const productId = event.target.add;
+   const productId = event.target.dataset.add;
    event.addEventListener('click', addToCart(productId));
    updateCart(itemsInCart);
 });
@@ -321,9 +249,8 @@ buttons.forEach((event) => {
 const removeButton = document.querySelectorAll(".fa-trash-alt");
 
 removeButton.forEach((event) => {
-   const removeProductId = event.target.remove;
+   const removeProductId = event.target.dataset.remove;
    event.addEventListener("click", removeItemFromCart(removeProductId));
    updateCart(itemsInCart);
 });
 
-*/

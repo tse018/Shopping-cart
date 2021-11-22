@@ -152,18 +152,31 @@ const products = {
 };
 
 /******************** Controllers ************************/
+/* empty array to keep track of the cart */
 let itemsInCart = [];
 
+/*
+   variable item using find method to search for product.id, and if its a match,
+   push method to add into the empty array called itemsInCart
+*/
+
 function addToCart(id) {
-   const item = products.productsInformation.find((product) => product.id === product.id);
+   const item = products.productsInformation.find((product) => product.id === id);
    console.log(item);
 
    itemsInCart.push(item);
-   console.log(itemsInCart)
+   console.log(itemsInCart);
+
+   updateCartView(itemsInCart)
 }
 
+function removeItemFromCart(id) {
+   const remove = products.productsInformation.filter((product) => product.id === id);
+   console.log(remove)
 
-
+   itemsInCart.filter(remove)
+   console.log(itemsInCart)
+}
 
 
 
@@ -212,7 +225,7 @@ function product() {
 product();
 
 
-
+/************************ UpdateView **********************/
 
 // oppdaterer handlelisten
 function updateCartView(itemsInCart) {
@@ -224,7 +237,7 @@ function updateCartView(itemsInCart) {
       cartProducts.className = "cart_item";
 
       const cartProductImage = document.createElement("img");
-      cartProductImage.src = item.image;
+      cartProductImage.src = item.img;
       cartProductImage.setAttribute("alt","bilde av ....");
       cartProducts.appendChild(cartProductImage);
 
@@ -259,5 +272,4 @@ function updateCartView(itemsInCart) {
       /**********************************************/
    });
 }
-
 updateCartView(itemsInCart);

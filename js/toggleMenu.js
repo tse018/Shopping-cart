@@ -1,6 +1,4 @@
-
 /*************** Show / Hide Cart ***************/
-// må integrere denne delen med hele modellen
 const section = document.querySelector("section");
 const showCartButton = document.getElementById("cart_items");
 
