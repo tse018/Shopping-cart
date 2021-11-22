@@ -151,19 +151,113 @@ const products = {
    ]
 };
 
+/******************** Controllers ************************/
 let itemsInCart = [];
 
 function addToCart(id) {
+   const item = products.productsInformation.find((product) => product.id === product.id);
+   console.log(item);
 
-   if (itemsInCart.some((item) => item.id === id)) {
-      changeNumbersOfSameProduct("plus", id);
-   } else {
-      const item = products.productsInformation.find((product) => product.id === id)
-      
-      itemsInCart.push({
-         ...item,
-         numberOfUnits: 1,
-      });
-   }
+   itemsInCart.push(item);
+   console.log(itemsInCart)
 }
 
+
+
+
+
+
+/************************************* From Model to View ***************************/
+// viser / setter opp produkter
+function product() {
+   const productItems = document.querySelector(".products_container");
+   
+   products.productsInformation.forEach((product) => {
+      const productSection = document.createElement("section");
+      productSection.innerText = "";
+
+      const productImage = document.createElement("img");
+      productImage.src = product.img;
+      productImage.setAttribute("alt", "image of laptop");
+      productSection.appendChild(productImage);
+
+      const productTitle = document.createElement("h2");
+      productTitle.innerText = product.name;
+      productSection.appendChild(productTitle);
+
+      const productDescription = document.createElement("p");
+      productDescription.innerText = product.description;
+      productSection.appendChild(productDescription);
+
+      const productPrice = document.createElement("h2");
+      productPrice.innerText = product.price;
+      productSection.appendChild(productPrice);
+
+      const addProductToCartButton = document.createElement("button");
+      addProductToCartButton.className = "i fas fa-shopping-cart";
+      addProductToCartButton.dataset.add = product.id;
+      productSection.appendChild(addProductToCartButton);
+
+      productItems.appendChild(productSection);
+
+      /************** Add eventlistener *********************/
+      addProductToCartButton.addEventListener("click", event => {
+         addToCart(event.target.dataset.add);
+         console.log(addProductToCartButton);
+      });
+      /******************************************************/
+   });
+}
+
+product();
+
+
+
+
+// oppdaterer handlelisten
+function updateCartView(itemsInCart) {
+   const productList = document.querySelector(".shopping-cart");
+   productList.innerText = "";
+
+   itemsInCart.forEach((item) => {
+      const cartProducts = document.createElement("div");
+      cartProducts.className = "cart_item";
+
+      const cartProductImage = document.createElement("img");
+      cartProductImage.src = item.image;
+      cartProductImage.setAttribute("alt","bilde av ....");
+      cartProducts.appendChild(cartProductImage);
+
+      const cartProductTitle = document.createElement("h2");
+      cartProductTitle.innerText = item.name;
+      cartProducts.appendChild(cartProductTitle);
+
+      const cartProductDescription = document.createElement("p");
+      cartProductDescription.innerText = item.description;
+      cartProducts.appendChild(cartProductDescription);
+
+      const cartProductQuantity = document.createElement('h3');
+      cartProductQuantity.innerText = item.numberOfUnits;
+      cartProducts.appendChild(cartProductQuantity)
+
+      const cartProductPrice = document.createElement("h3");
+      cartProductPrice.innerText = item.price;
+      cartProducts.appendChild(cartProductPrice);
+
+      const dangerButton = document.createElement("button");
+      dangerButton.className = "i fas fa-trash-alt";
+      dangerButton.dataset.remove = item.id;
+      cartProducts.appendChild(dangerButton);
+
+      productList.appendChild(cartProducts);
+
+      /************** Add eventListener *************/
+      dangerButton.addEventListener("click", event => {
+         removeItemFromCart(event.target.dataset.remove);
+         console.log(dangerButton)
+      });
+      /**********************************************/
+   });
+}
+
+updateCartView(itemsInCart);

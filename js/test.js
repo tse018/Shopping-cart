@@ -161,7 +161,6 @@ function updateCart(itemsInCart) {
    countItemsAddedToCart(itemsInCart);
 }
 
-
 /************************************* From Model to View ***************************/
 // viser / setter opp produkter
 function product() {
@@ -192,13 +191,20 @@ function product() {
       addProductToCartButton.dataset.add = product.id;
       productSection.appendChild(addProductToCartButton);
 
-      addProductToCartButton.addEventListener("click", addToCart)
+      addProductToCartButton.addEventListener("click", addToCart(product.id))
 
       productItems.appendChild(productSection);
    });
 }
 
 product();
+
+
+// fjern item fra listen
+function removeItemFromCart(id) {
+   itemsInCart = itemsInCart.filter((item) => item.id !== id); // NOT equal value / NOT equal value type
+   updateCart(itemsInCart)
+}
 
 
 // oppdaterer handlelisten
@@ -235,6 +241,8 @@ function updateCartView(itemsInCart) {
       dangerButton.dataset.remove = item.id;
       cartProducts.appendChild(dangerButton);
 
+      dangerButton.addEventListener("click", removeItemFromCart)
+
       productList.appendChild(cartProducts);
    });
 }
@@ -256,20 +264,18 @@ function addToCart(id) {
       itemsInCart.push({
          ...item,
          numberOfUnits: 1,
+
       });
+
    }
    updateCart(itemsInCart);
+   itemsInCart = [];
 }
 
-// fjern item fra listen
-function removeItemFromCart(id) {
-   itemsInCart = itemsInCart.filter((item) => item.id !== id); // NOT equal value / NOT equal value type
-   updateCart(itemsInCart)
-}
 
 
 // teller total pris og total produkter lagt til i handlekurven
-function countItemsAddedToCart() {
+function countItemsAddedToCart(itemsInCart) {
    let totalPrice = 0,
    totalItems = 0;
 
@@ -302,25 +308,17 @@ function changeNumbersOfSameProduct(event, id) {
 }
 
 
-
-
-
 /************************************** Add eventlistener ***************************/
 
 // legger til eventlistener for kjøp-produkt knappen som trigger funksjonen addToCart()
-const buttons = document.querySelectorAll(".fa-shopping-cart");
 
-buttons.forEach((event) => {
-   const productId = event.target.dataset.add;
-   buttons.addEventListener('click', addToCart(productId));
-   updateCart(itemsInCart);
-});
 
 // legger til eventlistener for danger-knappen som trigger funksjonen removeItemFromCart()
 const removeButton = document.querySelectorAll(".fa-trash-alt");
 
 removeButton.forEach((event) => {
-   let removeProductId = event.dataset.remove;
-   removeButton.addEventListener("click", removeItemFromCart(removeProductId));
-   updateCart(itemsInCart);
+   
+   // let removeProductId = event.dataset.remove;
+   // removeButton.addEventListener("click", removeItemFromCart(removeProductId));
+   // updateCartView(itemsInCart);
 });
