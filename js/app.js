@@ -153,7 +153,7 @@ const products = {
 
 /******************** Controllers ************************/
 /* empty array to keep track of the cart items */
-let itemsInCart = [];
+const itemsInCart = [];
 
 /*
    variable item using find method to search for product.id, and if its a match,
@@ -161,23 +161,25 @@ let itemsInCart = [];
 */
 
 function addToCart(id) {
-   const item = products.productsInformation.find((product) => product.id === product.id);
+   const item = products.productsInformation.find((product) => product.id == id);
    console.log(item);
 
    itemsInCart.push(item);
    console.log(itemsInCart);
 
-   updateCartView(itemsInCart)
-}
-
-
-// remove item from itemsInCart array
-function removeItemFromCart(id) {
-   itemsInCart = itemsInCart.filter((product) => product.id !== product.id); // NOT equal value / NOT equal value type
-   console.log(itemsInCart);
    updateCartView(itemsInCart);
 }
 
+// remove item from itemsInCart array 
+function removeItemFromCart(id) {
+   const item  = itemsInCart.filter((item) => item.id !== id); // NOT equal value / NOT equal value type
+   console.log(item)
+
+   itemsInCart.splice(item);
+   console.log(itemsInCart);
+
+   updateCartView(itemsInCart);
+}
 
 
 
@@ -231,7 +233,7 @@ product();
 // oppdaterer handlelisten
 function updateCartView(itemsInCart) {
    const productList = document.querySelector(".shopping-cart");
-   productList.innerText = "";
+   productList.innerText = " ";
 
    itemsInCart.forEach((item) => {
       const cartProducts = document.createElement("div");
@@ -257,6 +259,7 @@ function updateCartView(itemsInCart) {
       const cartProductPrice = document.createElement("h3");
       cartProductPrice.innerText = item.price;
       cartProducts.appendChild(cartProductPrice);
+
 
       const removeButton = document.createElement("button");
       removeButton.className = "i fas fa-trash-alt";

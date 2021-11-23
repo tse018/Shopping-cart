@@ -317,8 +317,7 @@ function changeNumbersOfSameProduct(event, id) {
 const removeButton = document.querySelectorAll(".fa-trash-alt");
 
 removeButton.forEach((event) => {
-   
-   // let removeProductId = event.dataset.remove;
-   // removeButton.addEventListener("click", removeItemFromCart(removeProductId));
-   // updateCartView(itemsInCart);
+   let removeProductId = event.dataset.remove;
+   removeButton.addEventListener("click", removeItemFromCart(removeProductId));
+   updateCartView(itemsInCart);
 });
