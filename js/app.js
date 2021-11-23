@@ -151,16 +151,44 @@ const products = {
    ]
 };
 
+/******************** Controllers ************************/
+/* empty array to keep track of the cart items */
+let itemsInCart = [];
 
-/************************************* View ***************************/
+/*
+   variable item using find method to search for product.id, and if its a match,
+   push method to add into the empty array called itemsInCart
+*/
 
+function addToCart(id) {
+   const item = products.productsInformation.find((product) => product.id === product.id);
+   console.log(item);
+
+   itemsInCart.push(item);
+   console.log(itemsInCart);
+
+   updateCartView(itemsInCart)
+}
+
+
+// remove item from itemsInCart array
+function removeItemFromCart(id) {
+   itemsInCart = itemsInCart.filter((product) => product.id !== product.id); // NOT equal value / NOT equal value type
+   console.log(itemsInCart);
+   updateCartView(itemsInCart);
+}
+
+
+
+
+/************************************* From Model to View ***************************/
 // viser / setter opp produkter
 function product() {
    const productItems = document.querySelector(".products_container");
    
-
    products.productsInformation.forEach((product) => {
       const productSection = document.createElement("section");
+      productSection.innerText = "";
 
       const productImage = document.createElement("img");
       productImage.src = product.img;
@@ -185,22 +213,32 @@ function product() {
       productSection.appendChild(addProductToCartButton);
 
       productItems.appendChild(productSection);
+
+      /************** Add eventlistener *********************/
+      addProductToCartButton.addEventListener("click", event => {
+         addToCart(event.target.dataset.add);
+         console.log(addProductToCartButton);
+      });
+      /******************************************************/
    });
 }
 
 product();
 
 
+/************************ UpdateView **********************/
+
 // oppdaterer handlelisten
 function updateCartView(itemsInCart) {
    const productList = document.querySelector(".shopping-cart");
+   productList.innerText = "";
 
-   itemsInCart.forEach((item, id) => {
+   itemsInCart.forEach((item) => {
       const cartProducts = document.createElement("div");
       cartProducts.className = "cart_item";
 
       const cartProductImage = document.createElement("img");
-      cartProductImage.src = item.image;
+      cartProductImage.src = item.img;
       cartProductImage.setAttribute("alt","bilde av ....");
       cartProducts.appendChild(cartProductImage);
 
@@ -220,37 +258,19 @@ function updateCartView(itemsInCart) {
       cartProductPrice.innerText = item.price;
       cartProducts.appendChild(cartProductPrice);
 
-      const dangerButton = document.createElement("button");
-      dangerButton.className = "i fas fa-trash-alt";
-      dangerButton.dataset.remove = item.id;
-      cartProducts.appendChild(dangerButton);
+      const removeButton = document.createElement("button");
+      removeButton.className = "i fas fa-trash-alt";
+      removeButton.dataset.remove = item.id;
+      cartProducts.appendChild(removeButton);
 
       productList.appendChild(cartProducts);
+
+      /************** Add eventListener *************/
+      removeButton.addEventListener("click", event => {
+         removeItemFromCart(event.target.dataset.remove);
+         console.log(removeButton)
+      });
+      /**********************************************/
    });
 }
-
 updateCartView(itemsInCart);
-
-
-
-/************************************** Add eventlistener ***************************/
-
-// legger til eventlistener for kjøp-produkt knappen som trigger funksjonen addToCart()
-const buttons = document.querySelectorAll(".fa-shopping-cart");
-
-buttons.forEach((event) => {
-   const productId = event.target.dataset.add;
-   event.addEventListener('click', addToCart(productId));
-   updateCart(itemsInCart);
-});
-
-
-// legger til eventlistener for danger-knappen som trigger funksjonen removeItemFromCart()
-const removeButton = document.querySelectorAll(".fa-trash-alt");
-
-removeButton.forEach((event) => {
-   const removeProductId = event.target.dataset.remove;
-   event.addEventListener("click", removeItemFromCart(removeProductId));
-   updateCart(itemsInCart);
-});
-
