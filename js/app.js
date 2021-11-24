@@ -5,14 +5,14 @@ const products = {
          id: 0,
          name: "Iphone 13 Pro",
          description: "Iphone 13 Pro.",
-         price: "12014,-",
+         price: "12014",
          img: "assets/iphone 13 Pro.jpg"
       },
       {
          id: 1,
          name: "Samsung Galaxy Z fold3",
          description: "productDescription",
-         price: 324423,
+         price: 32443,
          img: "assets/samsung.jpg"
       },
       {
@@ -206,7 +206,7 @@ function product() {
       productSection.appendChild(productDescription);
 
       const productPrice = document.createElement("h2");
-      productPrice.innerText = product.price;
+      productPrice.innerText = product.price + ",-";
       productSection.appendChild(productPrice);
 
       const addProductToCartButton = document.createElement("button");
@@ -257,7 +257,7 @@ function updateCartView(itemsInCart) {
       cartProducts.appendChild(cartProductQuantity)
 
       const cartProductPrice = document.createElement("h3");
-      cartProductPrice.innerText = item.price;
+      cartProductPrice.innerText = item.price + ",-";
       cartProducts.appendChild(cartProductPrice);
 
 
