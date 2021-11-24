@@ -172,10 +172,10 @@ function addToCart(id) {
 
 // remove item from itemsInCart array 
 function removeItemFromCart(id) {
-   const item  = itemsInCart.filter((item) => item.id !== id); // NOT equal value / NOT equal value type
+   const item  = itemsInCart.findIndex(item => item.id == id); // NOT equal value / NOT equal value type
    console.log(item)
 
-   itemsInCart.splice(item);
+   itemsInCart.splice(item, 1); 
    console.log(itemsInCart);
 
    updateCartView(itemsInCart);
