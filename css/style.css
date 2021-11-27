@@ -7,17 +7,15 @@
 .fa-search {
    position: relative;
    color: hsl(240, 37%, 12%);
-   margin-left: 900px;
-   top: -35px;
+   left: 400px;
    cursor: pointer;
 }
 
 /************ Product container **********/
 .product_list {
-   grid-area: figure;
    position: relative;
    display: grid;
-   grid-template-columns: 1fr 1fr 1fr;
+   grid-template-columns: repeat(3, 1fr);
    gap: 30px;
    border: 10px solid grey;
    background: ghostwhite;
@@ -44,10 +42,10 @@
    margin: 0 0 0 40px;
 }
 
+
 .products_container {
-   grid-area: section;
    display: grid;
-   grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+   grid-template-columns: repeat(3, 1fr);
    gap: 30px;
 }
 
@@ -65,23 +63,7 @@
    letter-spacing: 2px;
 }
 
-
-main {
-   display: grid;
-   grid-template-columns: 300px 1050px;
-   grid-template-rows: auto auto auto auto auto;
-   gap: 30px 30px;
-   background-color: white;
-   grid-template-areas:
-      "header     header"
-      "nav        nav"
-      "aside      figure"
-      "  .        section"
-      "  .        footer";
-}
-
 header {
-   grid-area: header;
    background-color: ghostwhite;
    position: relative;
 }
@@ -115,9 +97,8 @@ header li:hover {
 }
 
 nav {
-   grid-area: nav;
    position: relative;
-   text-align: right;
+   text-align: center;
    margin: 0 0 0 20px;
    color: hsl(240, 37%, 12%);
    background-color: ghostwhite;
@@ -132,26 +113,12 @@ nav i:hover {
    color: darkblue;
 }
 
-aside {
-   grid-area: aside;
-   position: sticky;
-   top: 50px;
-   margin: 0 0 0 20px;
-   background-color: ghostwhite;
-   max-height: 300px;
-}
-
 /******** Not clicked on cart-list button ***************/
 section {
 	display: none;
 }
 
-figure {
-   grid-area: figure;
-}
-
 footer {
-   grid-area: footer;
    display: flex;
 }
 
