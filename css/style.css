@@ -19,6 +19,7 @@
    gap: 30px;
    border: 10px solid grey;
    background: ghostwhite;
+   min-height: 100px;
 }
 
 .product_list img {
@@ -61,6 +62,17 @@
 .products_container section h2 {
    font-size: 20px;
    letter-spacing: 2px;
+}
+
+
+.total_items {
+   position: absolute;
+   top: -150px;
+}
+
+.total_price {
+   position: absolute;
+   top: -100px;
 }
 
 header {
