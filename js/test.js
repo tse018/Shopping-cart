@@ -276,35 +276,13 @@ function addToCart(id) {
 
 // teller total pris og total produkter lagt til i handlekurven
 function countItemsAddedToCart(itemsInCart) {
-   let totalPrice = 0,
-   totalItems = 0;
+   let totalPrice = 0;
+   let totalItems = 0;
 
    itemsInCart.forEach((item) => {
       totalPrice += item.price * item.numberOfUnits;
       totalItems += item.numberOfUnits;
    });
-}
-
-// når man legger til like produkter, så skal antallet økes med +1 eller ta vekk med -1.
-function changeNumbersOfSameProduct(event, id) {
-   itemsInCart = itemsInCart.map((item) => {
-      const numberOfUnits = item.numberOfUnits;
-
-      if (item.id === id) {
-         if (event === "minus" && numberOfUnits > 1) {
-            numberOfUnits--;
-         } else if (event === "plus" && numberOfUnits < 1) {
-            numberOfUnits++;
-         }
-      }
-
-      return {
-         ...item,
-         numberOfUnits,
-      };
-   });
-
-   updateCart(itemsInCart);
 }
 
 

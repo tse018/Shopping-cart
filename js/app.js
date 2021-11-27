@@ -5,7 +5,7 @@ const products = {
          id: 0,
          name: "Iphone 13 Pro",
          description: "Iphone 13 Pro.",
-         price: "12014",
+         price: 12014,
          img: "assets/iphone 13 Pro.jpg"
       },
       {
@@ -156,32 +156,31 @@ const products = {
 const itemsInCart = [];
 
 /*
-   variable item using find method to search for product.id, and if its a match,
+   variable item using find method to search for product.id and if its a match,
    push method to add into the empty array called itemsInCart
 */
 
 function addToCart(id) {
    const item = products.productsInformation.find((product) => product.id == id);
-   console.log(item);
-
-   itemsInCart.push(item);
-   console.log(itemsInCart);
-
-   updateCartView(itemsInCart);
-}
-
-// remove item from itemsInCart array 
-function removeItemFromCart(id) {
-   const item  = itemsInCart.findIndex(item => item.id == id); // NOT equal value / NOT equal value type
    console.log(item)
 
-   itemsInCart.splice(item, 1); 
-   console.log(itemsInCart);
+   itemsInCart.push(item);
+   console.log(itemsInCart)
 
    updateCartView(itemsInCart);
 }
 
+// remove item from itemsInCart array whenever id matches
+function removeItemFromCart(id) {
+   const item  = itemsInCart.findIndex((item) => item.id == id);
+   console.log(item)
 
+   // take away one item 1 at the time 
+   itemsInCart.splice(item, 1); 
+   console.log(itemsInCart)
+
+   updateCartView(itemsInCart);
+}
 
 /************************************* From Model to View ***************************/
 // viser / setter opp produkter
@@ -219,7 +218,6 @@ function product() {
       /************** Add eventlistener *********************/
       addProductToCartButton.addEventListener("click", event => {
          addToCart(event.target.dataset.add);
-         console.log(addProductToCartButton);
       });
       /******************************************************/
    });
@@ -233,9 +231,16 @@ product();
 // oppdaterer handlelisten
 function updateCartView(itemsInCart) {
    const productList = document.querySelector(".shopping-cart");
-   productList.innerText = " ";
+
+   productList.innerText = "";
+
+   let totalPrice = 0;
+   let totalItems = 0;
 
    itemsInCart.forEach((item) => {
+      totalItems++
+      totalPrice += item.price;
+
       const cartProducts = document.createElement("div");
       cartProducts.className = "cart_item";
 
@@ -252,14 +257,9 @@ function updateCartView(itemsInCart) {
       cartProductDescription.innerText = item.description;
       cartProducts.appendChild(cartProductDescription);
 
-      const cartProductQuantity = document.createElement('h3');
-      cartProductQuantity.innerText = item.numberOfUnits;
-      cartProducts.appendChild(cartProductQuantity)
-
       const cartProductPrice = document.createElement("h3");
       cartProductPrice.innerText = item.price + ",-";
       cartProducts.appendChild(cartProductPrice);
-
 
       const removeButton = document.createElement("button");
       removeButton.className = "i fas fa-trash-alt";
@@ -271,9 +271,23 @@ function updateCartView(itemsInCart) {
       /************** Add eventListener *************/
       removeButton.addEventListener("click", event => {
          removeItemFromCart(event.target.dataset.remove);
-         console.log(removeButton)
       });
       /**********************************************/
    });
+
+   const cartTotalItems = document.createElement("h2");
+   cartTotalItems.className = "total_items";
+   cartTotalItems.innerHTML = "Total items" + ": " + totalItems;
+
+   productList.appendChild(cartTotalItems);
+
+
+   const cartTotalPrice = document.createElement("h2");
+   cartTotalPrice.className = "total_price";
+   cartTotalPrice.innerHTML = "Total sum " + "= " + totalPrice + ",-";
+
+   productList.appendChild(cartTotalPrice);
+
 }
+
 updateCartView(itemsInCart);
