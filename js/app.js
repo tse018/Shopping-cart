@@ -4,7 +4,7 @@ const products = {
       {
          id: 0,
          name: "Iphone 13 Pro",
-         description: "Iphone 13 Pro.",
+         description: "Iphone 13 Pro, newest ndsfknsklfklsdfdsjkfnkdlsnfkldsfkls",
          price: 12014,
          img: "assets/iphone 13 Pro.jpg"
       },
@@ -193,24 +193,28 @@ function product() {
 
       const productImage = document.createElement("img");
       productImage.src = product.img;
-      productImage.setAttribute("alt", "image of laptop");
+      productImage.setAttribute("alt", "bilde av " + product.name);
       productSection.appendChild(productImage);
 
       const productTitle = document.createElement("h2");
       productTitle.innerText = product.name;
+      productTitle.setAttribute("aria-label", "produktnavn " + product.name);
       productSection.appendChild(productTitle);
 
       const productDescription = document.createElement("p");
       productDescription.innerText = product.description;
+      productDescription.setAttribute("aria-label", "beskrivelse av " + product.name + product.description);
       productSection.appendChild(productDescription);
 
       const productPrice = document.createElement("h2");
       productPrice.innerText = product.price + ",-";
+      productPrice.setAttribute("aria-label", product.name + " koster " + product.price + "kr");
       productSection.appendChild(productPrice);
 
       const addProductToCartButton = document.createElement("button");
       addProductToCartButton.className = "i fas fa-shopping-cart";
       addProductToCartButton.dataset.add = product.id;
+      addProductToCartButton.setAttribute("aria-label", "legg til " + product.name + " i handlekurven");
       productSection.appendChild(addProductToCartButton);
 
       productItems.appendChild(productSection);
@@ -218,6 +222,7 @@ function product() {
       /************** Add eventlistener *********************/
       addProductToCartButton.addEventListener("click", event => {
          addToCart(event.target.dataset.add);
+         console.log(addProductToCartButton)
       });
       /******************************************************/
    });
@@ -246,24 +251,28 @@ function updateCartView(itemsInCart) {
 
       const cartProductImage = document.createElement("img");
       cartProductImage.src = item.img;
-      cartProductImage.setAttribute("alt","bilde av ....");
+      cartProductImage.setAttribute("alt","bilde av " + item.name);
       cartProducts.appendChild(cartProductImage);
 
       const cartProductTitle = document.createElement("h2");
       cartProductTitle.innerText = item.name;
+      cartProductTitle.setAttribute("aria-label", "produktnavn " + item.name);
       cartProducts.appendChild(cartProductTitle);
 
       const cartProductDescription = document.createElement("p");
       cartProductDescription.innerText = item.description;
+      cartProductDescription.setAttribute("aria-label", "beskrivelse av " + item.name + item.description);
       cartProducts.appendChild(cartProductDescription);
 
       const cartProductPrice = document.createElement("h3");
       cartProductPrice.innerText = item.price + ",-";
+      cartProductPrice.setAttribute("aria-label", item.name + " koster " + item.price + " kr");
       cartProducts.appendChild(cartProductPrice);
 
       const removeButton = document.createElement("button");
       removeButton.className = "i fas fa-trash-alt";
       removeButton.dataset.remove = item.id;
+      removeButton.setAttribute("aria-label", "ta vekk " + item.name + " fra handlekurven");
       cartProducts.appendChild(removeButton);
 
       productList.appendChild(cartProducts);
@@ -271,13 +280,16 @@ function updateCartView(itemsInCart) {
       /************** Add eventListener *************/
       removeButton.addEventListener("click", event => {
          removeItemFromCart(event.target.dataset.remove);
+         console.log(removeButton)
       });
       /**********************************************/
    });
 
+   /****** Outside the forEach scope so it won´t print this code multiple times *********/
    const cartTotalItems = document.createElement("h2");
    cartTotalItems.className = "total_items";
    cartTotalItems.innerHTML = "Total items" + ": " + totalItems;
+   cartTotalItems.setAttribute("aria-label", "total varer lagt til i handlekurven " + totalItems);
 
    productList.appendChild(cartTotalItems);
 
@@ -285,6 +297,7 @@ function updateCartView(itemsInCart) {
    const cartTotalPrice = document.createElement("h2");
    cartTotalPrice.className = "total_price";
    cartTotalPrice.innerHTML = "Total sum " + "= " + totalPrice + ",-";
+   cartTotalPrice.setAttribute("aria-label", "total prisen av produktene lagt til i handlekurven er " + totalPrice + "kr");
 
    productList.appendChild(cartTotalPrice);
 
