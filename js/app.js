@@ -6,7 +6,8 @@ const products = {
          name: "Iphone 13 Pro",
          description: "Iphone 13 Pro, newest ndsfknsklfklsdfdsjkfnkdlsnfkldsfkls",
          price: 12014,
-         img: "assets/iphone 13 Pro.jpg"
+         img: "assets/iphone 13 Pro.jpg",
+         quantity: 1,
       },
       {
          id: 1,
@@ -258,11 +259,6 @@ function updateCartView(itemsInCart) {
       cartProductTitle.innerText = item.name;
       cartProductTitle.setAttribute("aria-label", "produktnavn " + item.name);
       cartProducts.appendChild(cartProductTitle);
-
-      const cartProductDescription = document.createElement("p");
-      cartProductDescription.innerText = item.description;
-      cartProductDescription.setAttribute("aria-label", "beskrivelse av " + item.name + item.description);
-      cartProducts.appendChild(cartProductDescription);
 
       const cartProductPrice = document.createElement("h3");
       cartProductPrice.innerText = item.price + ",-";
