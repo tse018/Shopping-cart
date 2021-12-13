@@ -163,10 +163,8 @@ const itemsInCart = [];
 
 function addToCart(id) {
    const item = products.productsInformation.find((product) => product.id == id);
-   console.log(item)
 
    itemsInCart.push(item);
-   console.log(itemsInCart)
 
    updateCartView(itemsInCart);
 }
@@ -174,11 +172,9 @@ function addToCart(id) {
 // remove item from itemsInCart array whenever id matches
 function removeItemFromCart(id) {
    const item  = itemsInCart.findIndex((item) => item.id == id);
-   console.log(item)
 
    // take away one item 1 at the time 
    itemsInCart.splice(item, 1); 
-   console.log(itemsInCart)
 
    updateCartView(itemsInCart);
 }
@@ -190,45 +186,44 @@ function product() {
    
    products.productsInformation.forEach((product) => {
       const productSection = document.createElement("section");
-      productSection.innerText = "";
-
       const productImage = document.createElement("img");
-      productImage.src = product.img;
-      productImage.setAttribute("alt", "bilde av " + product.name);
-      productSection.appendChild(productImage);
-
       const productTitle = document.createElement("h2");
-      productTitle.innerText = product.name;
-      productTitle.setAttribute("aria-label", "produktnavn " + product.name);
-      productSection.appendChild(productTitle);
-
       const productDescription = document.createElement("p");
-      productDescription.innerText = product.description;
-      productDescription.setAttribute("aria-label", "beskrivelse av " + product.name + product.description);
-      productSection.appendChild(productDescription);
-
       const productPrice = document.createElement("h2");
-      productPrice.innerText = product.price + ",-";
-      productPrice.setAttribute("aria-label", product.name + " koster " + product.price + "kr");
-      productSection.appendChild(productPrice);
-
       const addProductToCartButton = document.createElement("button");
-      addProductToCartButton.className = "i fas fa-shopping-cart";
-      addProductToCartButton.dataset.add = product.id;
-      addProductToCartButton.setAttribute("aria-label", "legg til " + product.name + " i handlekurven");
-      productSection.appendChild(addProductToCartButton);
 
+      addProductToCartButton.className = "i fas fa-shopping-cart";
+
+      addProductToCartButton.dataset.add = product.id;
+
+      productSection.innerText = "";
+      productDescription.innerText = product.description;
+      productTitle.innerText = product.name;
+      productPrice.innerText = product.price + ",-";
+
+      productImage.src = product.img;
+
+      productImage.setAttribute("alt", "bilde av " + product.name);
+      productTitle.setAttribute("aria-label", "produktnavn " + product.name);
+      productDescription.setAttribute("aria-label", "beskrivelse av " + product.name + product.description);
+      productPrice.setAttribute("aria-label", product.name + " koster " + product.price + "kr");
+      addProductToCartButton.setAttribute("aria-label", "legg til " + product.name + " i handlekurven");
+
+
+      productSection.appendChild(productImage);
+      productSection.appendChild(productTitle);
+      productSection.appendChild(productDescription);
+      productSection.appendChild(productPrice);
+      productSection.appendChild(addProductToCartButton);
       productItems.appendChild(productSection);
 
       /************** Add eventlistener *********************/
       addProductToCartButton.addEventListener("click", event => {
          addToCart(event.target.dataset.add);
-         console.log(addProductToCartButton)
       });
       /******************************************************/
    });
 }
-
 product();
 
 
@@ -237,66 +232,64 @@ product();
 // oppdaterer handlelisten
 function updateCartView(itemsInCart) {
    const productList = document.querySelector(".shopping-cart");
-
-   productList.innerText = "";
-
    let totalPrice = 0;
    let totalItems = 0;
+
+   productList.innerText = "";
 
    itemsInCart.forEach((item) => {
       totalItems++
       totalPrice += item.price;
 
       const cartProducts = document.createElement("div");
-      cartProducts.className = "cart_item";
-
       const cartProductImage = document.createElement("img");
-      cartProductImage.src = item.img;
-      cartProductImage.setAttribute("alt","bilde av " + item.name);
-      cartProducts.appendChild(cartProductImage);
-
       const cartProductTitle = document.createElement("h2");
-      cartProductTitle.innerText = item.name;
-      cartProductTitle.setAttribute("aria-label", "produktnavn " + item.name);
-      cartProducts.appendChild(cartProductTitle);
-
       const cartProductPrice = document.createElement("h3");
-      cartProductPrice.innerText = item.price + ",-";
-      cartProductPrice.setAttribute("aria-label", item.name + " koster " + item.price + " kr");
-      cartProducts.appendChild(cartProductPrice);
-
       const removeButton = document.createElement("button");
-      removeButton.className = "i fas fa-trash-alt";
-      removeButton.dataset.remove = item.id;
-      removeButton.setAttribute("aria-label", "ta vekk " + item.name + " fra handlekurven");
-      cartProducts.appendChild(removeButton);
 
+      cartProducts.className = "cart_item";
+      removeButton.className = "i fas fa-trash-alt";
+
+      removeButton.dataset.remove = item.id;
+
+      cartProductImage.src = item.img;
+
+      cartProductTitle.innerText = item.name;
+      cartProductPrice.innerText = item.price + ",-";
+
+      cartProductImage.setAttribute("alt","bilde av " + item.name);
+      cartProductTitle.setAttribute("aria-label", "produktnavn " + item.name);
+      cartProductPrice.setAttribute("aria-label", item.name + " koster " + item.price + " kr");
+      removeButton.setAttribute("aria-label", "ta vekk " + item.name + " fra handlekurven");
+
+      cartProducts.appendChild(cartProductPrice);
+      cartProducts.appendChild(cartProductImage);
+      cartProducts.appendChild(cartProductTitle);
+      cartProducts.appendChild(removeButton);
       productList.appendChild(cartProducts);
 
       /************** Add eventListener *************/
       removeButton.addEventListener("click", event => {
          removeItemFromCart(event.target.dataset.remove);
-         console.log(removeButton)
       });
       /**********************************************/
    });
 
    /****** Outside the forEach scope so it won´t print this code multiple times *********/
    const cartTotalItems = document.createElement("h2");
-   cartTotalItems.className = "total_items";
-   cartTotalItems.innerHTML = "Total items" + ": " + totalItems;
-   cartTotalItems.setAttribute("aria-label", "total varer lagt til i handlekurven " + totalItems);
-
-   productList.appendChild(cartTotalItems);
-
-
    const cartTotalPrice = document.createElement("h2");
+
+   cartTotalItems.className = "total_items";
    cartTotalPrice.className = "total_price";
-   cartTotalPrice.innerHTML = "Total sum " + "= " + totalPrice + ",-";
+
+   cartTotalItems.innerText = "Total items" + ": " + totalItems;
+   cartTotalPrice.innerText = "Total sum " + "= " + totalPrice + ",-";
+
+   cartTotalItems.setAttribute("aria-label", "total varer lagt til i handlekurven " + totalItems);
    cartTotalPrice.setAttribute("aria-label", "total prisen av produktene lagt til i handlekurven er " + totalPrice + "kr");
 
+   productList.appendChild(cartTotalItems);
    productList.appendChild(cartTotalPrice);
-
 }
 
 updateCartView(itemsInCart);

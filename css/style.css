@@ -43,7 +43,6 @@
    margin: 0 0 0 40px;
 }
 
-
 .products_container {
    display: grid;
    grid-template-columns: repeat(3, 1fr);
@@ -63,7 +62,6 @@
    font-size: 20px;
    letter-spacing: 2px;
 }
-
 
 .total_items {
    position: absolute;
