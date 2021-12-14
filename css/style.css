@@ -43,6 +43,8 @@
    margin: 0 0 0 40px;
 }
 
+/********** Products added to the cart ********/
+
 .products_container {
    display: grid;
    grid-template-columns: repeat(3, 1fr);
@@ -72,6 +74,7 @@
    position: absolute;
    top: -100px;
 }
+
 
 header {
    background-color: ghostwhite;
@@ -126,10 +129,6 @@ nav i:hover {
 /******** Not clicked on cart-list button ***************/
 section {
 	display: none;
-}
-
-footer {
-   display: flex;
 }
 
 button {
