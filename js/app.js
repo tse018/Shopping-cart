@@ -160,8 +160,8 @@ const itemsInCart = [];
    så skal den varen bli lagt til i itemsInCart listen vår og updaterer handlekurven
 */
 
-function addToCart(id) {
-   const item = products.productsInformation.find((product) => product.id == id);
+function addToCart(event) {
+   const item = products.productsInformation.find((product) => product.id == event);
 
    itemsInCart.push(item);
 
@@ -169,8 +169,8 @@ function addToCart(id) {
 }
 
 // fjerner varer hvis det er en match med vare id som ble lagt til i handlekurven, og tas vekk 1 om gangen 
-function removeItemFromCart(id) {
-   const item  = itemsInCart.findIndex((item) => item.id == id);
+function removeItemFromCart(event) {
+   const item  = itemsInCart.findIndex((item) => item.id == event);
 
    // take away one item 1 at the time 
    itemsInCart.splice(item, 1); 
